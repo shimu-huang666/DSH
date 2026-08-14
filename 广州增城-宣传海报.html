@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广州 · 增城 家庭自驾</title>
+<style>
+  :root {
+    --ink: #14121f;
+    --paper: #faf7f2;
+    --teal: #0e7490;
+    --coral: #f97316;
+    --violet: #7c3aed;
+    --gold: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(249,115,22,.55), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(124,58,237,.55), transparent 55%),
+      linear-gradient(165deg, #0f172a 0%, #1e3a5f 48%, #0e7490 100%);
+    color: #fff;
+    padding: 34px 26px 40px;
+  }
+  .hero .glow {
+    position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; pointer-events: none;
+  }
+  .hero .g1 { width: 300px; height: 300px; background: #f97316; top: -60px; right: -60px; }
+  .hero .g2 { width: 260px; height: 260px; background: #7c3aed; bottom: 40px; left: -80px; }
+  .hero .g3 { width: 120px; height: 120px; background: #22d3ee; top: 34%; left: 12%; opacity: .35; }
+  .hero .content { position: relative; z-index: 2; padding-bottom: 56px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12.5px; letter-spacing: 3px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,.4); border-radius: 999px;
+    padding: 6px 14px; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 12vw, 96px);
+    line-height: 1.02; font-weight: 900; letter-spacing: 2px;
+    margin: 18px 0 4px;
+  }
+  .hero h1 .dot { color: #fb923c; }
+  .hero .slogan { font-size: clamp(15px, 3.4vw, 20px); opacity: .94; max-width: 34em; }
+  .hero .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .hero .meta span {
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+    padding: 7px 14px; border-radius: 10px; font-size: 13px; font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+  .skyline {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+    pointer-events: none; line-height: 0;
+  }
+  .skyline svg { display: block; width: 100%; height: auto; }
+
+  /* ===== SECTION COMMON ===== */
+  section { max-width: 720px; margin: 0 auto; padding: 30px 22px; }
+  .sec-head { margin-bottom: 20px; }
+  .sec-head .kicker { font-size: 12px; letter-spacing: 3px; color: var(--teal); font-weight: 700; }
+  .sec-head h2 { font-size: 26px; font-weight: 800; margin-top: 4px; }
+  .sec-head h2 em { font-style: normal; color: var(--coral); }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 12px; top: 6px; bottom: 6px; width: 3px;
+    background: linear-gradient(var(--teal), var(--violet), var(--coral));
+    border-radius: 3px;
+  }
+  .day { position: relative; margin-bottom: 22px; }
+  .day::before {
+    content: ""; position: absolute; left: -24px; top: 6px; width: 15px; height: 15px;
+    background: #fff; border: 4px solid var(--teal); border-radius: 50%;
+  }
+  .day:nth-child(2)::before { border-color: var(--violet); }
+  .day:nth-child(3)::before { border-color: var(--coral); }
+  .day:nth-child(4)::before { border-color: var(--gold); }
+  .day-card {
+    background: #fff; border-radius: 16px; padding: 16px 18px;
+    box-shadow: 0 8px 24px rgba(15,23,42,.08);
+  }
+  .day-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .day-num { font-size: 34px; font-weight: 900; line-height: 1; color: #e2e8f0; }
+  .day-title { font-size: 18px; font-weight: 800; }
+  .day-date { font-size: 12.5px; color: #94a3b8; font-weight: 600; margin-left: auto; }
+  .steps { list-style: none; margin-top: 10px; }
+  .steps li { display: flex; gap: 10px; padding: 5px 0; font-size: 14px; }
+  .steps .t { font-weight: 700; color: var(--teal); min-width: 52px; font-variant-numeric: tabular-nums; }
+  .steps .x { color: #334155; }
+  .stay { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 700;
+    background: #ecfeff; color: #0e7490; padding: 4px 10px; border-radius: 999px; }
+
+  /* ===== SPOT CARDS ===== */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  .spot {
+    background: #fff; border-radius: 16px; padding: 16px;
+    box-shadow: 0 6px 20px rgba(15,23,42,.07);
+    border-top: 4px solid var(--teal);
+  }
+  .spot.warm { border-top-color: var(--coral); }
+  .spot h3 { font-size: 16px; margin-bottom: 8px; }
+  .spot ul { list-style: none; font-size: 13.5px; color: #334155; }
+  .spot ul li { padding: 3px 0; }
+  .spot .tag { display: inline-block; font-size: 11.5px; font-weight: 700; color: #fff;
+    background: var(--teal); border-radius: 6px; padding: 2px 8px; margin-bottom: 8px; }
+  .spot.warm .tag { background: var(--coral); }
+  .spot .pic { display: block; width: 100%; height: 72px; margin-bottom: 10px; }
+
+  /* ===== BUDGET ===== */
+  .budget { background: #14121f; color: #fff; border-radius: 20px; padding: 22px; }
+  .budget h2 { color: #fff; border: none; padding: 0; margin-bottom: 4px; }
+  .budget .sum { font-size: 30px; font-weight: 900; color: #fb923c; margin: 4px 0 14px; }
+  .budget .rows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 560px) { .budget .rows { grid-template-columns: repeat(2, 1fr); } }
+  .budget .item { background: rgba(255,255,255,.06); border-radius: 12px; padding: 10px; font-size: 13px; }
+  .budget .item b { display: block; font-size: 17px; color: #fff; }
+  .budget .item span { color: #94a3b8; font-size: 12px; }
+
+  /* ===== WARN ===== */
+  .warn-box {
+    background: #fff7ed; border: 1px solid #fed7aa; border-left: 5px solid var(--gold);
+    border-radius: 12px; padding: 14px 16px; font-size: 13.5px;
+  }
+  .warn-box b { color: #c2410c; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center; padding: 34px 20px 40px; color: #94a3b8; font-size: 13px;
+    background: linear-gradient(#faf7f2, #efe9df);
+  }
+  footer .big { font-size: 20px; font-weight: 900; color: var(--ink); letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+    <div class="skyline" aria-hidden="true">
+      <svg viewBox="0 0 1200 220" preserveAspectRatio="xMidYMax slice">
+        <g fill="#0b1220" opacity="0.5">
+          <rect x="40" y="150" width="80" height="70"/>
+          <rect x="140" y="100" width="60" height="120"/>
+          <rect x="220" y="160" width="100" height="60"/>
+          <rect x="340" y="80" width="70" height="140"/>
+          <rect x="430" y="130" width="85" height="90"/>
+          <rect x="535" y="175" width="75" height="45"/>
+          <rect x="630" y="110" width="95" height="110"/>
+          <rect x="750" y="150" width="80" height="70"/>
+          <path d="M860 220 Q 878 165 890 110 Q 882 70 875 34 L 897 34 L 897 10 L 903 10 L 903 34 L 925 34 Q 918 70 910 110 Q 922 165 940 220 Z"/>
+          <rect x="970" y="140" width="85" height="80"/>
+          <rect x="1075" y="105" width="65" height="115"/>
+        </g>
+      </svg>
+    </div>
+    <div class="content">
+      <span class="eyebrow">🚗 家庭自驾 · 4 人 · 3 晚</span>
+      <h1>广州<span class="dot"> · </span>增城</h1>
+      <p class="slogan">带爸妈和弟弟去看看我的大学，再逛天环谷子店，最后到增城看山水。</p>
+      <div class="meta">
+        <span>📅 8.16 16:00 出发</span>
+        <span>🏠 8.19 15:00 前到家</span>
+        <span>💰 预算 3000 内</span>
+        <span>📍 高州 ⇄ 广州</span>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <div class="kicker">ITINERARY</div>
+      <h2>四天行程 <em>· 一眼看完</em></h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="day">
+        <div class="day-card">
+          <div class="day-top">
+            <span class="day-num">01</span>
+            <span class="day-title">高州 → 广州天河</span>
+            <span class="day-date">8/16 周日</span>
+          </div>
+          <ul class="steps">
+            <li><span class="t">16:00</span><span class="x">加满油出发，导航「体育西路 / 天环广场」</span></li>
+            <li><span class="t">16–20:30</span><span class="x">约 340km · 4.5h，沈海高速 G15 一路向北</span></li>
+            <li><span class="t">20:30</span><span class="x">到天河办入住，附近简单晚餐/夜宵</span></li>
+            <li><span class="t">21:30</span><span class="x">早点休息，为第二天养足精神</span></li>
+          </ul>
+          <span class="stay">🛏 宿 · 天河（体育西/岗顶）</span>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card">
+          <div class="day-top">
+            <span class="day-num">02</span>
+            <span class="day-title">广州大学</span>
+            <span class="day-date">8/17 周一</span>
+          </div>
+          <ul class="steps">
+            <li><span class="t">09:00</span><span class="x">出发，导航「广州大学正门」，约 35 分钟</span></li>
+            <li><span class="t">09:45</span><span class="x">参观校园：正门 → 图书馆 → 学院/宿舍 🏫</span></li>
+            <li><span class="t">12:00</span><span class="x">食堂午饭，实惠又地道</span></li>
+            <li><span class="t">13:30</span><span class="x">午饭后可再逛逛校园，随后回天河</span></li>
+            <li><span class="t">15:00</span><span class="x">回酒店午休避暑</span></li>
+            <li><span class="t">19:00</span><span class="x">花城广场散步，看广州塔夜景 🌃</span></li>
+          </ul>
+          <span class="stay">🛏 宿 · 天河（不换酒店）</span>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card">
+          <div class="day-top">
+            <span class="day-num">03</span>
+            <span class="day-title">天环广场 × 谷子店 → 增城</span>
+            <span class="day-date">8/18 周二</span>
+          </div>
+          <ul class="steps">
+            <li><span class="t">09:30</span><span class="x">天环广场，感受市中心繁华 🛍️</span></li>
+            <li><span class="t">10:00</span><span class="x">逛谷：时尚天河 → 正佳 → 天河城（全步行）</span></li>
+            <li><span class="t">12:30</span><span class="x">商场餐饮层午餐（避暑）</span></li>
+            <li><span class="t">13:30</span><span class="x">自驾去增城，导航「挂绿湖」，约 1.5h</span></li>
+            <li><span class="t">15:00</span><span class="x">办入住，挂绿湖环湖散步</span></li>
+            <li><span class="t">16:30</span><span class="x">增江画廊沿江绿道散步（"小漓江"）</span></li>
+            <li><span class="t">18:30</span><span class="x">增城本地菜：正果云吞 / 迟菜心</span></li>
+          </ul>
+          <span class="stay">🛏 宿 · 增城（荔城 / 挂绿湖旁）</span>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card">
+          <div class="day-top">
+            <span class="day-num">04</span>
+            <span class="day-title">增城 → 高州</span>
+            <span class="day-date">8/19 周三</span>
+          </div>
+          <ul class="steps">
+            <li><span class="t">07:30</span><span class="x">早餐：增城肠粉 / 云吞面</span></li>
+            <li><span class="t">08:00</span><span class="x">正果老街逛吃（正果云吞发源地）🏞️</span></li>
+            <li><span class="t">09:30</span><span class="x">最迟 10:00 前出发返程，约 330km · 4h</span></li>
+            <li><span class="t">13:30</span><span class="x">回到高州 ✅ 稳稳赶在 15:00 前</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="kicker">HIGHLIGHTS</div>
+      <h2>两大重点 <em>· 谷子店 & 增城</em></h2>
+    </div>
+    <div class="grid">
+      <div class="spot">
+        <svg class="pic" viewBox="0 0 120 90" role="img" aria-label="谷子店">
+          <rect x="42" y="32" width="36" height="56" rx="6" fill="#0e7490"/>
+          <path d="M44 32 a16 16 0 0 1 32 0" fill="none" stroke="#0e7490" stroke-width="6"/>
+          <circle cx="52" cy="55" r="5" fill="#fff" opacity=".9"/>
+          <circle cx="68" cy="55" r="5" fill="#fff" opacity=".9"/>
+        </svg>
+        <span class="tag">🛍️ 谷子店 · 天环旁步行可达</span>
+        <h3>弟弟的吃谷路线</h3>
+        <ul>
+          <li><b>时尚天河</b> — 谷子最集中 · 步行 2 分钟</li>
+          <li><b>正佳广场</b> — 谷子+潮玩 · 步行 5 分钟</li>
+          <li><b>天河城</b> — 谷子+百货 · 步行 3 分钟</li>
+        </ul>
+      </div>
+      <div class="spot warm">
+        <svg class="pic" viewBox="0 0 120 90" role="img" aria-label="增城山水">
+          <circle cx="96" cy="20" r="11" fill="#f97316"/>
+          <path d="M0 62 L28 32 L50 56 L74 26 L120 62 Z" fill="#0e7490"/>
+          <rect x="0" y="62" width="120" height="28" fill="#0891b2" opacity=".45"/>
+          <path d="M30 78 q6 -3 12 0 M70 78 q6 -3 12 0" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/>
+        </svg>
+        <span class="tag">🏞️ 增城 · 自然山水 · 全免费</span>
+        <h3>增城山水路线</h3>
+        <ul>
+          <li><b>挂绿湖</b> — 环湖步道 · 看日落</li>
+          <li><b>增江画廊</b> — 沿江绿道"小漓江"</li>
+          <li><b>正果老街</b> — 古镇 + 正果云吞</li>
+          <li><b>白水寨瀑布</b> — 可选 · 需爬山</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="kicker">BUDGET</div>
+      <h2>预算 <em>· 4 人 3 晚</em></h2>
+    </div>
+    <div class="budget">
+      <h2>合计估算</h2>
+      <div class="sum">¥2550 – 2950</div>
+      <div class="rows">
+        <div class="item"><b>400–450</b><span>油费</span></div>
+        <div class="item"><b>320–350</b><span>过路费</span></div>
+        <div class="item"><b>900–1100</b><span>住宿</span></div>
+        <div class="item"><b>800–900</b><span>餐饮</span></div>
+        <div class="item"><b>0</b><span>门票</span></div>
+        <div class="item"><b>120–150</b><span>停车/杂费</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="kicker">REMINDER</div>
+      <h2>出发前 <em>· 记牢这几点</em></h2>
+    </div>
+    <div class="warn-box">
+      <b>⚠️ 台风：</b>8 月广州多雨、可能有台风，16 号前查台风路径，台风直扑就改室内或提前返程。
+      <br><b>☀️ 防暑：</b>末伏高温，每天 12–15 点排室内，注意补水防晒。
+      <br><b>🎓 进校：</b>广州大学扫码可入，带学生证 + 身份证。
+      <br><b>🅿️ 停车：</b>车停酒店，天环一带步行 + 地铁。
+      <br><b>🛎 订房：</b>暑假周末易满，今天就订「免费停车 + 含早」。
+    </div>
+  </section>
+
+  <footer>
+    <div class="big">广州大学城 · 天环广场 · 增城山水</div>
+    <div style="margin-top:6px;">一家人，一辆车，三天三晚，出发 🚗💨</div>
+  </footer>
+
+</body>
+</html>
